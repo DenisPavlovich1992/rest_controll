@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="_csrf" data-th-content="${_csrf.token}" />
+    <meta name="_csrf_header" data-th-content="${_csrf.headerName}"/>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+    <link href="/css/user.css" rel="stylesheet">
+    <link rel="icon" href="/favIcon/userPageIcon.ico" type="image/x-icon">
+
+    <title>User page</title>
+</head>
+<body>
+<header class="bg-dark text-white p-1 d-flex justify-content-between ">
+    <div class="ms-3 m-auto">
+        <strong id="user-email"></strong>
+        with roles: <span id="user-roles"></span>
+    </div>
+    <div>
+        <form id="logout-form" method="post" class="logout-form">
+            <input type="hidden" id="csrf-name" name="_csrf" value=""/>
+            <button type="submit" class="btn btn-link text-secondary text-decoration-none logout-button">
+                <strong>Logout</strong>
+            </button>
+        </form>
+    </div>
+</header>
+
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-sm-2 col-10 bg-light p-0">
+            <ul class="nav flex-column p-2">
+                <li class="nav-item">
+                    <a href="#" class="nav-link bg-primary text-white rounded-4 w-100 roleLink"
+                       data-role="User">User</a>
+                </li>
+            </ul>
+        </nav>
+        <main class="col-sm-10 col-12 bg-body-secondary">
+            <div class="p-3 rolePanel" id="userPanel" data-role="User">
+                <h2>User information-page</h2>
+                <div class="tab-pane fade show active shadow" id="AuthInfo"
+                     style="background-color: #f8f9fa; border: 2px solid #dee2e6; border-radius: .50rem;">
+                    <h3 class="ps-3 p-2" style="background-color: #E9ECEF;">About user</h3>
+                    <div class="p-3">
+                        <table class="table table-borderless table-hover">
+                            <thead>
+                            <tr class="table-light text-center border-top border-bottom">
+                                <th scope="col">id</th>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Age</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Role</th>
+                            </tr>
+                            </thead>
+                            <tbody class="text-center table-light">
+                            <tr>
+                                <td id="current-user-id"></td>
+                                <td id="current-user-firstname"></td>
+                                <td id="current-user-lastname"></td>
+                                <td id="current-user-age"></td>
+                                <td id="current-user-email"></td>
+                                <td id="current-user-roles"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="/js/userPage.js"></script>
+</body>
+</html>
