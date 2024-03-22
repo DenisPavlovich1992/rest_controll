@@ -137,6 +137,8 @@ public class UserServiceImp implements UserService, UserDetailsService {
             setRolesToUser(existingUser, userDto.getRoles());
 
             userRepository.save(existingUser);
+        } else {
+            throw new IllegalArgumentException("userRepository or userDto cannot be null");
         }
     }
 

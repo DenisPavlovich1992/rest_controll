@@ -1,6 +1,8 @@
 package ru.kata.spring.boot_security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.model.Role;
 import ru.kata.spring.boot_security.model.User;
@@ -16,6 +18,9 @@ import java.util.List;
 @Component
 public class DatabaseLoader implements CommandLineRunner {
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     private final UserRepository userRepository;
 
     private final RoleRepository roleRepository;
@@ -26,19 +31,20 @@ public class DatabaseLoader implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... strings) {
-        Role adminRole = new Role("ROLE_ADMIN");
+    public void run(String... args) {
+        Role admRole = new Role("ROLE_ADMIN");
         Role userRole = new Role("ROLE_USER");
-
-        this.roleRepository.save(adminRole);
+        this.roleRepository.save(admRole);
         this.roleRepository.save(userRole);
+        String encodedPassword1 = passwordEncoder.encode("admin");
+        String encodedPassword2 = passwordEncoder.encode("user");
 
-        User admin = new User("admin", "admin", "admin@mail.ru", 30, "admin");
-        admin.setRoles(new HashSet<>(List.of(adminRole, userRole)));
 
-        User user = new User("user", "User", "user@mail.ru", 30, "user");
+        User admin = new User("admin", "admin", "admin@mail.ru", 30, encodedPassword1);
+        admin.setRoles(new HashSet<>(List.of(admRole, userRole)));
+
+        User user = new User("user", "User", "user@mail.ru", 30, encodedPassword2);
         user.setRoles(new HashSet<>(List.of(userRole)));
-
         this.userRepository.save(admin);
         this.userRepository.save(user);
     }
