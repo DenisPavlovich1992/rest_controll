@@ -1,11 +1,13 @@
 package ru.kata.spring.boot_security.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.repository.RoleRepository;
@@ -22,6 +24,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImp implements UserService, UserDetailsService {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;
 
@@ -108,9 +112,8 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Override
     public void addUserWithRoles(UserDto userDto) {
         User user = userMapper.toModel(userDto);
-
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         setRolesToUser(user, userDto.getRoles());
-
         userRepository.save(user);
     }
 
@@ -132,8 +135,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
             existingUser.setLastname(userDto.getLastname());
             existingUser.setAge(userDto.getAge());
             existingUser.setEmail(userDto.getEmail());
-            existingUser.setPassword(userDto.getPassword());
-
+            existingUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
             setRolesToUser(existingUser, userDto.getRoles());
 
             userRepository.save(existingUser);
